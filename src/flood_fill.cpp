@@ -43,7 +43,7 @@ namespace with_stack
         {
             auto const [x, y]{stack.top()};
             stack.pop();
-            if (!(x < 0 || x >= M || y < 0 || y >= N))
+            if (x >= 0 && x < M && y >= 0 && y < N)
             {
                 if (mat[x][y] == target_color)
                 {
@@ -72,7 +72,7 @@ namespace with_queue
         {
             auto const [x, y]{queue.front()};
             queue.pop();
-            if (!(x < 0 || x >= M || y < 0 || y >= N))
+            if (x >= 0 && x < M && y >= 0 && y < N)
             {
                 if (mat[x][y] == target_color)
                 {
