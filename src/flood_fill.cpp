@@ -62,9 +62,10 @@ namespace with_queue
 {
     constexpr static auto flood_fill{[](auto &mat, auto const color, auto const target_color, auto const x0, auto const y0) noexcept
     {
-        std::queue<std::pair<decltype(x0), decltype(y0)>> queue{};
-        auto const M{static_cast<decltype(x0)>(mat.size())};
-        auto const N{static_cast<decltype(x0)>(mat.front().size())};
+        using index_type = decltype(x0);
+        std::queue<std::pair<index_type, index_type>> queue{};
+        auto const M{static_cast<index_type>(mat.size())};
+        auto const N{static_cast<index_type>(mat.front().size())};
         queue.push(std::make_pair(x0, y0));
         while (!queue.empty())
         {
