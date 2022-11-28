@@ -86,9 +86,6 @@ namespace with_queue
     }};
 } // namespace with_queue
 
-
-
-
 int main()
 {
     std::vector<std::vector<int>> mat1{{{1, 1, 1, 1, 1, 1, 1, 1},
