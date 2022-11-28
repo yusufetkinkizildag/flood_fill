@@ -34,9 +34,10 @@ namespace with_stack
 {
     constexpr static auto flood_fill{[](auto &mat, auto const color, auto const target_color, auto const x0, auto const y0) noexcept
     {
-        std::stack<std::pair<decltype(x0), decltype(y0)>> stack{};
-        auto const M{static_cast<int>(mat.size())};
-        auto const N{static_cast<int>(mat.front().size())};
+        using index_type = decltype(x0);
+        auto const M{static_cast<index_type>(mat.size())};
+        auto const N{static_cast<index_type>(mat.front().size())};
+        std::stack<std::pair<index_type, index_type>> stack{};
         stack.push(std::make_pair(x0, y0));
         while (!stack.empty())
         {
