@@ -108,7 +108,7 @@ int main()
     utility::print(mat2);
 
     std::cout << (mat1 == mat2) << '\n';
-    std::cout << std::equal(mat1.begin(), mat1.end(), mat2.begin()) << '\n'; 
+    std::cout << std::equal(std::cbegin(mat1), std::cend(mat1), std::cbegin(mat2)) << '\n'; 
     std::cout << utility::is_equal(mat1, mat2) << '\n';
     return 0;
 }
