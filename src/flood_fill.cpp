@@ -61,7 +61,7 @@ int main()
                                        {1, 1, 1, 1, 1, 2, 1, 1},
                                        {1, 1, 1, 1, 1, 2, 2, 1}}};
     utility::print(mat);
-    ff::flood_fill(mat, 3, 2,  3, 4);
+    ff::flood_fill(mat, 3, 2, 3, 4);
     utility::print(mat);
     return 0;
 }
