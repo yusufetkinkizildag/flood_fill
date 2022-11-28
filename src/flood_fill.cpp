@@ -1,4 +1,5 @@
 #include <stack>
+#include <queue>
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -20,10 +21,16 @@ namespace utility
         });
         std::cout << "]\n";
     }};
+
+    constexpr static auto is_equal{[](auto const &mat1, auto const &mat2) noexcept
+    {
+        auto const [first, second]{std::mismatch(std::cbegin(mat1), std::cend(mat1), std::cbegin(mat2))};
+        return (first == std::cend(mat1)) && (second == std::cend(mat2));
+    }};
 } // namespace utility
 
 
-namespace ff
+namespace with_stack
 {
     constexpr static auto flood_fill{[](auto &mat, auto const color, auto const target_color, auto const x0, auto const y0) noexcept
     {
@@ -48,11 +55,42 @@ namespace ff
             }
         }
     }};
-} // namespace ff
+} // namespace with_stack
+
+
+namespace with_queue
+{
+    constexpr static auto flood_fill{[](auto &mat, auto const color, auto const target_color, auto const x0, auto const y0) noexcept
+    {
+        std::queue<std::pair<decltype(x0), decltype(y0)>> queue{};
+        auto const M{static_cast<int>(mat.size())};
+        auto const N{static_cast<int>(mat.front().size())};
+        queue.push(std::make_pair(x0, y0));
+        while (!queue.empty())
+        {
+            auto const [x, y]{queue.front()};
+            queue.pop();
+            if (!(x < 0 || x >= M || y < 0 || y >= N))
+            {
+                if (mat[x][y] == target_color)
+                {
+                    mat[x][y] = color;
+                    queue.push(std::make_pair(x, y - 1));
+                    queue.push(std::make_pair(x, y + 1));
+                    queue.push(std::make_pair(x - 1, y));
+                    queue.push(std::make_pair(x + 1, y));
+                }
+            }
+        }
+    }};
+} // namespace with_queue
+
+
+
 
 int main()
 {
-    std::vector<std::vector<int>> mat{{{1, 1, 1, 1, 1, 1, 1, 1},
+    std::vector<std::vector<int>> mat1{{{1, 1, 1, 1, 1, 1, 1, 1},
                                        {1, 1, 1, 1, 1, 1, 0, 0},
                                        {1, 0, 0, 1, 1, 0, 1, 1},
                                        {1, 2, 2, 2, 2, 0, 1, 0},
@@ -60,8 +98,18 @@ int main()
                                        {1, 1, 1, 2, 2, 2, 2, 0},
                                        {1, 1, 1, 1, 1, 2, 1, 1},
                                        {1, 1, 1, 1, 1, 2, 2, 1}}};
-    utility::print(mat);
-    ff::flood_fill(mat, 3, 2, 3, 4);
-    utility::print(mat);
+    auto mat2{mat1};
+
+    utility::print(mat1);
+    with_stack::flood_fill(mat1, 3, 2, 3, 4);
+    utility::print(mat1);
+
+    utility::print(mat2);
+    with_queue::flood_fill(mat2, 3, 2, 3, 4);
+    utility::print(mat2);
+
+    std::cout << (mat1 == mat2) << '\n';
+    std::cout << std::equal(mat1.begin(), mat1.end(), mat2.begin()) << '\n'; 
+    std::cout << utility::is_equal(mat1, mat2) << '\n';
     return 0;
 }
