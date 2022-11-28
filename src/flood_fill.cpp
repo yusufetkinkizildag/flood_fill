@@ -25,7 +25,7 @@ namespace utility
 
 namespace ff
 {
-    constexpr static auto flood_fill{[](auto &mat, auto const color, auto const x0, auto const y0) noexcept
+    constexpr static auto flood_fill{[](auto &mat, auto const color, auto const target_color, auto const x0, auto const y0) noexcept
     {
         std::stack<std::pair<decltype(x0), decltype(y0)>> stack{};
         auto const M{static_cast<int>(mat.size())};
@@ -37,14 +37,14 @@ namespace ff
             stack.pop();
             if (!(x < 0 || x >= M || y < 0 || y >= N))
             {
-                if (mat[x][y] != color)
+                if (mat[x][y] == target_color)
                 {
                     mat[x][y] = color;
+                    stack.push(std::make_pair(x, y - 1));
+                    stack.push(std::make_pair(x, y + 1));
+                    stack.push(std::make_pair(x - 1, y));
+                    stack.push(std::make_pair(x + 1, y));
                 }
-                stack.push(std::make_pair(x, y - 1));
-                stack.push(std::make_pair(x, y + 1));
-                stack.push(std::make_pair(x - 1, y));
-                stack.push(std::make_pair(x + 1, y));
             }
         }
     }};
@@ -61,7 +61,7 @@ int main()
                                        {1, 1, 1, 1, 1, 2, 1, 1},
                                        {1, 1, 1, 1, 1, 2, 2, 1}}};
     utility::print(mat);
-    ff::flood_fill(mat, 3, 3, 4);
+    ff::flood_fill(mat, 3, 2,  3, 4);
     utility::print(mat);
     return 0;
 }
